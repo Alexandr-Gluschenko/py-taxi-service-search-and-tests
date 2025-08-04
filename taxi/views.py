@@ -51,7 +51,7 @@ class ManufacturerListView(LoginRequiredMixin, generic.ListView):
         form = ManufacturerSearchForm(self.request.GET)
 
         if form.is_valid():
-            title = form.cleaned_data["title"]
+            title = form.cleaned_data["name"]
             if title:
                 queryset = queryset.filter(
                     Q(name__icontains=title)
@@ -84,7 +84,7 @@ class CarListView(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["search_form"] = CarSearchForm()
+        context["search_form"] = CarSearchForm(self.request.GET)
         return context
 
     def get_queryset(self):
@@ -92,7 +92,7 @@ class CarListView(LoginRequiredMixin, generic.ListView):
         form = CarSearchForm(self.request.GET)
 
         if form.is_valid():
-            title = form.cleaned_data["title"]
+            title = form.cleaned_data["model"]
             if title:
                 queryset = queryset.filter(
                     Q(model__icontains=title) | Q(description__icontains=title)
@@ -128,7 +128,7 @@ class DriverListView(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["search_form"] = DriverSearchForm()
+        context["search_form"] = DriverSearchForm(self.request.GET)
         return context
 
     def get_queryset(self):
@@ -136,7 +136,7 @@ class DriverListView(LoginRequiredMixin, generic.ListView):
         form = DriverSearchForm(self.request.GET)
 
         if form.is_valid():
-            title = form.cleaned_data["title"]
+            title = form.cleaned_data["username"]
             if title:
                 queryset = queryset.filter(
                     Q(username__icontains=title)

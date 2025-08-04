@@ -55,7 +55,7 @@ class CarSearchTest(TestCase):
 
     def test_search_car_by_model(self):
         # Отправляем GET-запрос с параметром поиска
-        url = reverse("taxi:car-list") + "?title=BMW"
+        url = reverse("taxi:car-list") + "?model=BMW"
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "BMW")
@@ -80,7 +80,7 @@ class ManufacturerSearchTest(TestCase):
         Manufacturer.objects.create(name="Logitech", country="France")
 
     def test_search_manufacturer(self):
-        url = reverse("taxi:manufacturer-list") + "?title=HyperX"
+        url = reverse("taxi:manufacturer-list") + "?name=HyperX"
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "HyperX")
@@ -100,12 +100,12 @@ class DriverSearchTest(TestCase):
         self.manufacturer = Manufacturer.objects.create(
             name="TestMan", country="Germany")
     # Создаем водителей
-        Driver.objects.create(username="Driver1", license_number="ABC123")
-        Driver.objects.create(username="Driver2", license_number="DEF456")
-        Driver.objects.create(username="Driver3", license_number="GHI789")
+        Driver.objects.create(username="Driver1", license_number="ABC14345")
+        Driver.objects.create(username="Driver2", license_number="ABC16745")
+        Driver.objects.create(username="Driver3", license_number="ABC12115")
 
     def test_search_driver(self):
-        url = reverse("taxi:driver-list") + "?title=Driver1"
+        url = reverse("taxi:driver-list") + "?username=Driver1"
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Driver1")

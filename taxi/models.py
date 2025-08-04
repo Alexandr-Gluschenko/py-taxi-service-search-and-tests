@@ -36,10 +36,6 @@ class Car(models.Model):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.cleaned_data = None
 
     def __str__(self):
         return self.model
-
-    def is_valid(self):
-        pass
