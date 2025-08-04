@@ -34,8 +34,5 @@ class Car(models.Model):
     drivers = models.ManyToManyField(Driver, related_name="cars")
     description = models.TextField(blank=True, null=True)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
     def __str__(self):
         return self.model
