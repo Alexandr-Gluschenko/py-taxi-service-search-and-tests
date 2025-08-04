@@ -13,24 +13,27 @@ from taxi.models import Manufacturer, Car, Driver
 # Перевірка на роботу str методу ( Manufacturer )
 class ModelsTest(TestCase):
     def test_manufacturer_format_str(self):
-        manufacturer = Manufacturer.objects.create(name="test", country="Ukraine")
+        manufacturer = Manufacturer.objects.create(
+            name="test", country="Ukraine")
         expected = "test Ukraine"
         self.assertEqual(str(manufacturer), expected)
 
 # Перевірка на роботу str методу ( Car )
     def test_car_format_str(self):
-        manufacturer = Manufacturer.objects.create(name="test", country="Ukraine")
-        car = Car.objects.create(model="BMW", manufacturer=manufacturer)
+        manufacturer = Manufacturer.objects.create(
+            name="test", country="Ukraine")
+        car = Car.objects.create(model="BMW",
+                                 manufacturer=manufacturer)
         expected = "BMW"
         self.assertEqual(str(car), expected)
 
-
     def test_driver_format_str(self):
-        driver = Driver.objects.create(username= "Akimbo",
+        driver = Driver.objects.create(username="Akimbo",
                                        first_name="Alex",
                                        last_name="Gordon")
         expected = "Akimbo (Alex Gordon)"
         self.assertEqual(str(driver), expected)
+
 
 class CarSearchTest(TestCase):
     def setUp(self):
@@ -40,8 +43,10 @@ class CarSearchTest(TestCase):
             username="Admin",
             password="admin12",
         )
-        self.client.login(username="Admin", password="admin12")
-        self.manufacturer = Manufacturer.objects.create(name="TestMan", country="Germany")
+        self.client.login(username="Admin",
+                          password="admin12")
+        self.manufacturer = Manufacturer.objects.create(
+            name="TestMan", country="Germany")
 
         # Создаем машины
         Car.objects.create(model="BMW", manufacturer=self.manufacturer)
@@ -50,7 +55,7 @@ class CarSearchTest(TestCase):
 
     def test_search_car_by_model(self):
         # Отправляем GET-запрос с параметром поиска
-        url = reverse('taxi:car-list') + "?title=BMW"
+        url = reverse("taxi:car-list") + "?title=BMW"
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "BMW")
@@ -65,15 +70,17 @@ class ManufacturerSearchTest(TestCase):
             username="Admin",
             password="admin12",
         )
-        self.client.login(username="Admin", password="admin12")
-        self.manufacturer = Manufacturer.objects.create(name="TestMan", country="Germany")
+        self.client.login(username="Admin",
+                          password="admin12")
+        self.manufacturer = Manufacturer.objects.create(
+            name="TestMan", country="Germany")
         # Создаем производителя
         Manufacturer.objects.create(name="HyperX", country="Ukraine")
         Manufacturer.objects.create(name="Razer", country="Germany")
         Manufacturer.objects.create(name="Logitech", country="France")
 
     def test_search_manufacturer(self):
-        url = reverse('taxi:manufacturer-list') + "?title=HyperX"
+        url = reverse("taxi:manufacturer-list") + "?title=HyperX"
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "HyperX")
@@ -83,24 +90,27 @@ class ManufacturerSearchTest(TestCase):
 class DriverSearchTest(TestCase):
     def setUp(self):
         self.client = Client()
-         # Создаем пользователя и логиним
+    # Создаем пользователя и логиним
         self.user = get_user_model().objects.create_user(
             username="Admin",
             password="admin12",
         )
-        self.client.login(username="Admin", password="admin12")
-        self.manufacturer = Manufacturer.objects.create(name="TestMan", country="Germany")
-        # Создаем водителей
+        self.client.login(username="Admin",
+                          password="admin12")
+        self.manufacturer = Manufacturer.objects.create(
+            name="TestMan", country="Germany")
+    # Создаем водителей
         Driver.objects.create(username="Driver1", license_number="ABC123")
         Driver.objects.create(username="Driver2", license_number="DEF456")
         Driver.objects.create(username="Driver3", license_number="GHI789")
 
     def test_search_driver(self):
-        url = reverse('taxi:driver-list') + "?title=Driver1"
+        url = reverse("taxi:driver-list") + "?title=Driver1"
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Driver1")
         self.assertNotContains(response, "Driver2")
+
 
 class DriverCreationFormTest(TestCase):
     def test_form_valid_with_correct_data(self):
@@ -114,6 +124,7 @@ class DriverCreationFormTest(TestCase):
         }
         form = DriverCreationForm(data=form_data)
         self.assertTrue(form.is_valid())
+
 
 class DriverCreationFormTest2(TestCase):
     def test_form_invalid_with_correct_data(self):
